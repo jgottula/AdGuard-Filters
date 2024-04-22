@@ -1,10 +1,16 @@
-! Based on: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
-! Upstream Version: 2024-04-21 12:23 [841a3bd] 
-! Local Version:    2024-04-21 19:30 [A]
-! 
+! Title: Justin RaenonX
+! Description: AdGuard filters for RaenonX (based on uBlock Origin's quick-fixes filter)
+! Version: 2024-04-21 17:50 [B]
+
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
+! Updated: 2024-04-21 12:23 [841a3bd] 
+
+! Resources:
 ! https://adguard.com/kb/general/ad-filtering/create-own-filters/
 ! https://github.com/gorhill/uBlock/wiki/Static-filter-syntax#not-supported
 ! https://github.com/gorhill/uBlock/wiki/Syntax-quirks
+
+!! SECTION: uBlock Origin [annotated]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
 !! cosmetic filter: bottom collapsible ad section
@@ -26,7 +32,9 @@ raenonx.cc##.flex-col > style + div[class]:has(> p > a[href$="/ads-and-credits"]
 !! bypass adblocker detection: avoid blocking requests to this particular location
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$xhr,domain=raenonx.cc
 
-!! JUSTIN: subscription nag dialog
+!! SECTION: Justin additions
+
+!! cosmetic filter: subscription nag dialog
 raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(p > a[href$="docs/view/subscription/intro"])
-!! JUSTIN: <AdGap/>
+!! cosmetic filter: <AdGap/>
 raenonx.cc##div.min-h-40:not([id]):empty
