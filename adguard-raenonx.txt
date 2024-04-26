@@ -1,9 +1,9 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's quick-fixes filter)
-! Version: 2024-04-21 17:50 [B]
+! Version: 2024-04-25 18:15 [A]
 
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
-! Updated: 2024-04-21 12:23 [841a3bd] 
+! Updated: 2024-04-21 05:26 [730f659]
 
 ! Resources:
 ! https://adguard.com/kb/general/ad-filtering/create-own-filters/
@@ -22,15 +22,18 @@ raenonx.cc##.w-full > style + div[tabindex]:has(> style + div > style + div > p:
 !! cosmetic filter: anti-adblock detection nag sections
 raenonx.cc##.w-full > div:has(> style + div > style + div > p:has-text(/advertisements|広告/))
 !! cosmetic filter: anti-adblock nag dialog
-raenonx.cc##[id^="headlessui-"] [role="dialog"]:has-text(/ad-blocker|ad blocker|adblocker|広告/i)
+raenonx.cc##[id^="headlessui-"] [role="dialog"]:has-text(/ad[- ]?blocker|広告/i)
 !! cosmetic filter: top nag bar about reporting to ad blockers
-raenonx.cc##.flex-col > style + div[class]:has(> p > a[href$="/ads-and-credits"])
+!! [[JUSTIN TWEAK]]
+!raenonx.cc##.flex-col.p-2 > style + div[class]:has(> p)
+raenonx.cc##.flex-col > style + div[class]:has(> p):has-text(/For details, please check the doc "About website ads and info crediting"/i)
 !! bypass adblocker detection: avoid blocking HEAD requests to third-party domains
 @@*$xhr,3p,method=head,domain=raenonx.cc
 !! bypass adblocker detection: avoid blocking requests to this particular location
 @@||googlesyndication.com/|$xhr,domain=raenonx.cc
 !! bypass adblocker detection: avoid blocking requests to this particular location
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$xhr,domain=raenonx.cc
+
 
 !! SECTION: Justin additions
 
