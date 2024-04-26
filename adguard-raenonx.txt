@@ -1,6 +1,6 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's quick-fixes filter)
-! Version: 2024-04-25 18:15 [B]
+! Version: 2024-04-25 18:15 [C]
 
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
 ! Updated: 2024-04-21 05:26 [730f659]
@@ -24,9 +24,7 @@ raenonx.cc##.w-full > div:has(> style + div > style + div > p:has-text(/advertis
 !! cosmetic filter: anti-adblock nag dialog
 raenonx.cc##[id^="headlessui-"] [role="dialog"]:has-text(/ad[- ]?blocker|広告/i)
 !! cosmetic filter: top nag bar about reporting to ad blockers
-!! [[JUSTIN TWEAK]]
-!raenonx.cc##.flex-col.p-2 > style + div[class]:has(> p)
-raenonx.cc##.flex-col > style + div[class]:has(> p):has-text(/please check the doc .About website ads and info crediting/i)
+raenonx.cc##.flex-col.p-2 > style + div[class]:has(> p)
 !! bypass adblocker detection: avoid blocking HEAD requests to third-party domains
 @@*$xhr,3p,method=head,domain=raenonx.cc
 !! bypass adblocker detection: avoid blocking requests to this particular location
