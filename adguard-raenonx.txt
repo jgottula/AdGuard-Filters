@@ -1,6 +1,6 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's quick-fixes filter)
-! Version: 2024-04-25 18:15 [C]
+! Version: 2024-04-29 14:30 [A]
 
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
 ! Updated: 2024-04-21 05:26 [730f659]
@@ -38,4 +38,4 @@ raenonx.cc##.flex-col.p-2 > style + div[class]:has(> p)
 !! cosmetic filter: subscription nag dialog
 raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(p > a[href$="docs/view/subscription/intro"])
 !! cosmetic filter: <AdGap/>
-raenonx.cc##div.min-h-40:not([id]):empty
+raenonx.cc##div[class="min-h-40"]:not([id]):empty
