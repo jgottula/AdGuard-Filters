@@ -1,44 +1,80 @@
 ! Title: Justin RaenonX
-! Description: AdGuard filters for RaenonX (based on uBlock Origin's quick-fixes filter)
-! Version: 2024-05-09 19:40 [A]
+! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
+! Version: 2024-05-12 20:15 [A]
 
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2024.txt
-! Updated: 2024-04-21 05:26 [730f659]
+! https://github.com/uBlockOrigin/uAssets/issues/21353
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt           [adguard blocking]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2024.txt      [extra stuff]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/annoyances-others.txt [subset of quick-fixes]
+! Updated: 2024-05-12 13:37 [e7af95a]
 
 ! Resources:
 ! https://adguard.com/kb/general/ad-filtering/create-own-filters/
 ! https://github.com/gorhill/uBlock/wiki/Static-filter-syntax#not-supported
 ! https://github.com/gorhill/uBlock/wiki/Syntax-quirks
 
-!! SECTION: uBlock Origin [annotated]
 
-! https://github.com/uBlockOrigin/uAssets/issues/21353
+!! SECTION: uBlock Origin: quick-fixes.txt
+
 !! cosmetic filter: bottom collapsible ad section
 raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clickable-bg-opaque > .transform-smooth > svg)
 !! cosmetic filter: the ad sections themselves
 raenonx.cc##.w-full:has(> style + div > style + div .adsbygoogle)
-!! cosmetic filter: anti-adblock detection nag sections
-raenonx.cc##.w-full > style + div[tabindex]:has(> style + div > style + div > p:has-text(advertisements))
-!! cosmetic filter: anti-adblock detection nag sections
-raenonx.cc##.w-full > div:has(> style + div > style + div > p:has-text(/advertisements|広告/))
 !! cosmetic filter: anti-adblock nag dialog
-raenonx.cc##[id^="headlessui-"] [role="dialog"]:has-text(/ad[- ]?blocker|広告/i)
+raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(a[href="https://pks.raenonx.cc/en/docs/view/help/disable-adblock"])
+!! cosmetic filter: anti-adblock detection nag sections
+raenonx.cc##.w-full > div[class*="min-h-"]:has(> style + div > .markdown > p > a[href*="adblock"])
 !! cosmetic filter: top nag bar about reporting to ad blockers
-raenonx.cc##.flex-col.p-2 > style + div[class]:has(> p)
-!! cosmetic filter: (TODO: what is this one? from filters-2024.txt, not quick-fixes.txt)
-raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clickable-bg-opaque > .transform-smooth > svg)
+raenonx.cc##.size-full > .w-full > .flex-col > style + div:has-text(blocker)
+
+!! cosmetic filter: TODO: some kind of new bullshit?
+!#if ext_ublock
+raenonx.cc##html[style*="hidden"]:style(overflow: visible !important;)
+!#else
+!#if adguard
+raenonx.cc#$#html[style*="hidden"]{overflow: visible !important;}
+!#endif
+!#endif
+
 !! bypass adblocker detection: avoid blocking HEAD requests to third-party domains
 @@*$xhr,3p,method=head,domain=raenonx.cc
-!! bypass adblocker detection: avoid blocking requests to this particular location
+
+!! bypass adblocker detection: avoid blocking requests to these particular locations
 @@||googlesyndication.com/|$xhr,domain=raenonx.cc
-!! bypass adblocker detection: avoid blocking requests to this particular location
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$xhr,domain=raenonx.cc
+
+
+!! SECTION: uBlock Origin: privacy.txt
+
+!! adshield blocking
+!#if ext_ublock
+raenonx.cc##+js(set-local-storage-item, adshield-analytics-uuid, $remove$)
+raenonx.cc##+js(set-local-storage-item, /_fa_dXVpZA==$/, $remove$)
+raenonx.cc##+js(set-local-storage-item, /_fa_Y2FjaGVfaXNfYmxvY2tpbmdfYWNjZXB0YWJsZV9hZHM=$/, $remove$)
+raenonx.cc##+js(set-local-storage-item, /_fa_Y2FjaGVfaXNfYmxvY2tpbmdfYWRz$/, $remove$)
+raenonx.cc##+js(set-local-storage-item, /_fa_Y2FjaGVfYWRibG9ja19jaXJjdW12ZW50X3Njb3Jl$/, $remove$)
+!#else
+!#if adguard
+raenonx.cc#%#//scriptlet('set-local-storage-item', 'adshield-analytics-uuid', '$remove$')
+raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_dXVpZA==$/, '$remove$')
+raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfaXNfYmxvY2tpbmdfYWNjZXB0YWJsZV9hZHM=$/, '$remove$')
+raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfaXNfYmxvY2tpbmdfYWRz$/, '$remove$')
+raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJjdW12ZW50X3Njb3Jl$/, '$remove$')
+!#endif
+!#endif
+||html-load.com^$domain=raenonx.cc
+
+
+!! SECTION: uBlock Origin: filters-2024.txt
+
+!! cosmetic filter: bottom collapsible ad section
+raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clickable-bg-opaque > .transform-smooth > svg)
 
 
 !! SECTION: Justin additions
 
 !! cosmetic filter: subscription nag dialog
-raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(p > a[href$="docs/view/subscription/intro"])
+raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(a[href$="docs/view/subscription/intro"])
 !! cosmetic filter: <AdGap/>
 raenonx.cc##div[class="min-h-40"]:not([id]):empty
