@@ -1,6 +1,6 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-05-12 20:15 [A]
+! Version: 2024-05-12 20:15 [B]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
@@ -75,6 +75,9 @@ raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clicka
 !! SECTION: Justin additions
 
 !! cosmetic filter: subscription nag dialog
+!! TODO: FIXME: this no longer works because now the periodic popup (this) and the adblock popup (above)
+!!              are not both based PopupCommon; rather, this periodic one is PopupUltimate, and it uses
+!!              new code that gets rid of e.g. "headlessui-": see 575cb90
 raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(a[href$="docs/view/subscription/intro"])
 !! cosmetic filter: <AdGap/>
 raenonx.cc##div[class="min-h-40"]:not([id]):empty
