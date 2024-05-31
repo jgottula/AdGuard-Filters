@@ -1,13 +1,13 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-05-12 20:15 [B]
+! Version: 2024-05-30 18:00 [A]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt           [adguard blocking]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt           [adshield blocking]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2022.txt      [adshield blocking]
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2024.txt      [extra stuff]
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/annoyances-others.txt [subset of quick-fixes]
-! Updated: 2024-05-12 13:37 [e7af95a]
+! Updated: 2024-05-30 05:12 [9c78348]
 
 ! Resources:
 ! https://adguard.com/kb/general/ad-filtering/create-own-filters/
@@ -22,11 +22,11 @@ raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clicka
 !! cosmetic filter: the ad sections themselves
 raenonx.cc##.w-full:has(> style + div > style + div .adsbygoogle)
 !! cosmetic filter: anti-adblock nag dialog
-raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(a[href="https://pks.raenonx.cc/en/docs/view/help/disable-adblock"])
+raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(.w-full > .w-full > .markdown > p > a[href="https://pks.raenonx.cc/en/docs/view/help/disable-adblock"])
 !! cosmetic filter: anti-adblock detection nag sections
 raenonx.cc##.w-full > div[class*="min-h-"]:has(> style + div > .markdown > p > a[href*="adblock"])
 !! cosmetic filter: top nag bar about reporting to ad blockers
-raenonx.cc##.size-full > .w-full > .flex-col > style + div:has-text(blocker)
+raenonx.cc##.size-full > .w-full > .flex-col > style + div:has-text(/blocker|ブロッカー/)
 
 !! cosmetic filter: TODO: some kind of new bullshit?
 !#if ext_ublock
@@ -63,7 +63,32 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfaXNfYmxvY2tpbmdf
 raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJjdW12ZW50X3Njb3Jl$/, '$remove$')
 !#endif
 !#endif
-||html-load.com^$domain=raenonx.cc
+
+
+!! SECTION: uBlock Origin: filters-2022.txt
+
+!! NOTE: NONE OF THIS SECTION HAS BEEN CHECKED FOR ADGUARD SYNTAX COMPAT!
+
+! Ad-Shield
+! https://github.com/uBlockOrigin/uAssets/issues/21385
+!#if cap_html_filtering
+||07c225f3.online^$~css,domain=raenonx.cc
+||content-loader.com^$~css,domain=raenonx.cc
+||css-load.com^$~css,domain=raenonx.cc
+||html-load.com^$~css,domain=raenonx.cc
+@@/loader.min.js$xhr,script,domain=raenonx.cc
+/loader.min.js$xhr,script,domain=raenonx.cc,replace=/;return [a-z0-9]{1,2}\(\)\[.*?\]\(\(function\([a-z0-9]{1,2}\){for\(var/;return; return whocare()[nobodycare(111)]((function(){for(var/g
+!#else
+raenonx.cc##+js(no-fetch-if, /static\.criteo\.net|adsbygoogle/, length:150000-150200)
+raenonx.cc##+js(set, window.googletag.apiReady, false)
+*$frame,redirect-rule=noopframe,domain=raenonx.cc
+*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
+*$image,redirect-rule=1x1.gif,domain=raenonx.cc
+@@*$ghide,domain=raenonx.cc
+@@||securepubads.g.doubleclick.net/tag/js/gpt.js$xhr,domain=raenonx.cc
+raenonx.cc##ins.adsbygoogle:style(height: 1px !important; visibility: hidden !important;)
+/\.(xyz|online|site)\/[a-z0-9]{7}\/[a-z0-9]{50,}$/$match-case,popup,domain=raenonx.cc
+!#endif
 
 
 !! SECTION: uBlock Origin: filters-2024.txt
