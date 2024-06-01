@@ -47,8 +47,10 @@ raenonx.cc#$#html[style*="hidden"]{overflow: visible !important;}
 
 !! SECTION: uBlock Origin: privacy.txt
 
-!! adshield blocking
+! Ad-Shield
+! https://github.com/uBlockOrigin/uAssets/issues/9717
 !#if ext_ublock
+/^https:\/\/cdn\.jsdelivr\.net\/npm\/[-a-z_]{4,22}@latest\/dist\/script\.min\.js$/$script,3p,match-case
 raenonx.cc##+js(set-local-storage-item, adshield-analytics-uuid, $remove$)
 raenonx.cc##+js(set-local-storage-item, /_fa_dXVpZA==$/, $remove$)
 raenonx.cc##+js(set-local-storage-item, /_fa_Y2FjaGVfaXNfYmxvY2tpbmdfYWNjZXB0YWJsZV9hZHM=$/, $remove$)
@@ -91,8 +93,8 @@ raenonx.cc#%#//scriptlet('prevent-fetch', '/static\.criteo\.net|adsbygoogle/ len
 raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'false')
 !! AdGuard for iOS doesn't support redirect-rule :(
 *$frame,redirect=noopframe,domain=raenonx.cc
-!*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
-!*$image,redirect-rule=1x1.gif,domain=raenonx.cc
+*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
+*$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#endif
 !#endif
 @@*$ghide,domain=raenonx.cc
