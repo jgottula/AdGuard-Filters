@@ -1,6 +1,6 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-05-30 18:00 [A]
+! Version: 2024-05-30 18:00 [B]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
@@ -79,14 +79,27 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 @@/loader.min.js$xhr,script,domain=raenonx.cc
 /loader.min.js$xhr,script,domain=raenonx.cc,replace=/;return [a-z0-9]{1,2}\(\)\[.*?\]\(\(function\([a-z0-9]{1,2}\){for\(var/;return; return whocare()[nobodycare(111)]((function(){for(var/g
 !#else
+!#if ext_ublock
 raenonx.cc##+js(no-fetch-if, /static\.criteo\.net|adsbygoogle/, length:150000-150200)
 raenonx.cc##+js(set, window.googletag.apiReady, false)
+!#else
+!#if adguard
+raenonx.cc#%#//scriptlet('prevent-fetch', '/static\.criteo\.net|adsbygoogle/ length:150000-150200')
+raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'false')
+!#endif
+!#endif
 *$frame,redirect-rule=noopframe,domain=raenonx.cc
 *$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
 *$image,redirect-rule=1x1.gif,domain=raenonx.cc
 @@*$ghide,domain=raenonx.cc
 @@||securepubads.g.doubleclick.net/tag/js/gpt.js$xhr,domain=raenonx.cc
+!#if ext_ublock
 raenonx.cc##ins.adsbygoogle:style(height: 1px !important; visibility: hidden !important;)
+!#else
+!#if adguard
+raenonx.cc#$#ins.adsbygoogle{height: 1px !important; visibility: hidden !important;}
+!#endif
+!#endif
 /\.(xyz|online|site)\/[a-z0-9]{7}\/[a-z0-9]{50,}$/$match-case,popup,domain=raenonx.cc
 !#endif
 
