@@ -1,6 +1,6 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-05-30 18:00 [B]
+! Version: 2024-05-30 18:00 [C]
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
@@ -82,15 +82,19 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 !#if ext_ublock
 raenonx.cc##+js(no-fetch-if, /static\.criteo\.net|adsbygoogle/, length:150000-150200)
 raenonx.cc##+js(set, window.googletag.apiReady, false)
+*$frame,redirect-rule=noopframe,domain=raenonx.cc
+*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
+*$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#else
 !#if adguard
 raenonx.cc#%#//scriptlet('prevent-fetch', '/static\.criteo\.net|adsbygoogle/ length:150000-150200')
 raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'false')
+!! AdGuard for iOS doesn't support redirect-rule :(
+*$frame,redirect=noopframe,domain=raenonx.cc
+!*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
+!*$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#endif
 !#endif
-*$frame,redirect-rule=noopframe,domain=raenonx.cc
-*$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
-*$image,redirect-rule=1x1.gif,domain=raenonx.cc
 @@*$ghide,domain=raenonx.cc
 @@||securepubads.g.doubleclick.net/tag/js/gpt.js$xhr,domain=raenonx.cc
 !#if ext_ublock
