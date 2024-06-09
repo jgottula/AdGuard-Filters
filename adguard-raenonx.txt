@@ -1,26 +1,35 @@
 ! Title: Justin RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-05-30 18:00 [C]
+! Version: 2024-06-08 21:20 [A]
+
+! NOTE: Use this in conjunction with the microShield userscript (which blocks Ad-Shield)!
+! https://github.com/List-KR/microShield
 
 ! https://github.com/uBlockOrigin/uAssets/issues/21353
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt       [main stuff]
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt           [adshield blocking]
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2022.txt      [adshield blocking]
-! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2024.txt      [extra stuff]
-! Updated: 2024-05-30 05:12 [9c78348]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/quick-fixes.txt  [main stuff]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2024.txt [extra stuff]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt      [ad-shield blocking]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2022.txt [ad-shield blocking]
+! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/thirdparties/easylist/easyprivacy.txt [anti-tracker]
+! Updated: 2024-06-06 03:18 [0461242]
 
 ! Resources:
 ! https://adguard.com/kb/general/ad-filtering/create-own-filters/
+! https://github.com/AdguardTeam/Scriptlets/blob/master/wiki/compatibility-table.md
 ! https://github.com/gorhill/uBlock/wiki/Static-filter-syntax#not-supported
 ! https://github.com/gorhill/uBlock/wiki/Syntax-quirks
-
+! https://github.com/gorhill/uBlock/wiki/Resources-Library
+! https://github.com/uBlockO/uBO-Scriptlets
+! https://github.com/AdguardTeam/Scriptlets
 
 !! SECTION: uBlock Origin: quick-fixes.txt
 
+!! cosmetic filter: announcement bar nag about reporting to ad blockers
+raenonx.cc##div[class*="main_announcement-animation"]:has(> [class*="announcement"] > .markdown > p > a[href$="/docs/view/site/ads-and-credits"])
 !! cosmetic filter: bottom collapsible ad section
-raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clickable-bg-opaque > .transform-smooth > svg)
+raenonx.cc##div[class="fixed bottom-0 z-anchor w-full bg-slate-500"]:has(> div[class="flex flex-col w-full"] > button.button-clickable-bg-opaque > .transform-smooth > svg)
 !! cosmetic filter: the ad sections themselves
-raenonx.cc##.w-full:has(> style + div > style + div .adsbygoogle)
+raenonx.cc##div[class^="grid w-full size-full grid-cols"]:has(> div[class^="relative bottom-0 w-full overflow-hidden outline-transparent"] > .absolute > .adsbygoogle)
 !! cosmetic filter: anti-adblock nag dialog
 raenonx.cc##[id^="headlessui-"] [role="dialog"]:has(.w-full > .w-full > .markdown > p > a[href="https://pks.raenonx.cc/en/docs/view/help/disable-adblock"])
 !! cosmetic filter: anti-adblock detection nag sections
@@ -44,6 +53,12 @@ raenonx.cc#$#html[style*="hidden"]{overflow: visible !important;}
 @@||googlesyndication.com/|$xhr,domain=raenonx.cc
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$xhr,domain=raenonx.cc
 
+!! get rid of the stupid "clever" within-domain redirect to ads shit
+||raenonx.cc/api/scripts
+
+
+!! BEGIN: no Ad-Shield blocking
+!#if false
 
 !! SECTION: uBlock Origin: privacy.txt
 
@@ -69,8 +84,6 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 
 !! SECTION: uBlock Origin: filters-2022.txt
 
-!! NOTE: NONE OF THIS SECTION HAS BEEN CHECKED FOR ADGUARD SYNTAX COMPAT!
-
 ! Ad-Shield
 ! https://github.com/uBlockOrigin/uAssets/issues/21385
 !#if cap_html_filtering
@@ -81,24 +94,27 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 @@/loader.min.js$xhr,script,domain=raenonx.cc
 /loader.min.js$xhr,script,domain=raenonx.cc,replace=/;return [a-z0-9]{1,2}\(\)\[.*?\]\(\(function\([a-z0-9]{1,2}\){for\(var/;return; return whocare()[nobodycare(111)]((function(){for(var/g
 !#else
+
 !#if ext_ublock
 raenonx.cc##+js(no-fetch-if, /static\.criteo\.net|adsbygoogle/, length:150000-150200)
-raenonx.cc##+js(set, window.googletag.apiReady, false)
+raenonx.cc##+js(set, window.googletag.apiReady, undefined)
 *$frame,redirect-rule=noopframe,domain=raenonx.cc
 *$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
 *$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#else
 !#if adguard
 raenonx.cc#%#//scriptlet('prevent-fetch', '/static\.criteo\.net|adsbygoogle/ length:150000-150200')
-raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'false')
+raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'undefined')
 !! AdGuard for iOS doesn't support redirect-rule :(
-*$frame,redirect=noopframe,domain=raenonx.cc
+*$frame,redirect-rule=noopframe,domain=raenonx.cc
 *$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
 *$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#endif
 !#endif
+
 @@*$ghide,domain=raenonx.cc
 @@||securepubads.g.doubleclick.net/tag/js/gpt.js$xhr,domain=raenonx.cc
+
 !#if ext_ublock
 raenonx.cc##ins.adsbygoogle:style(height: 1px !important; visibility: hidden !important;)
 !#else
@@ -106,14 +122,31 @@ raenonx.cc##ins.adsbygoogle:style(height: 1px !important; visibility: hidden !im
 raenonx.cc#$#ins.adsbygoogle{height: 1px !important; visibility: hidden !important;}
 !#endif
 !#endif
-/\.(xyz|online|site)\/[a-z0-9]{7}\/[a-z0-9]{50,}$/$match-case,popup,domain=raenonx.cc
+
 !#endif
 
+||pks.raenonx.cc/scripts/newRelicEumProd.js$script
+||html-load.cc/script/$script
+||07c225f3.online^$font,ping
+||07c225f3.online/report?$xhr
+||content-loader.com^$font,ping
+||content-loader.com/report?$xhr
+||css-load.com^$font,ping
+||css-load.com/report?$xhr
+||html-load.com^$font,ping
+||html-load.com/report?$xhr
+||html-load.cc^$font,ping,doc,popup
+||html-load.cc/report?$xhr
+*$popup,domain=html-load.cc|07c225f3.online|content-loader.com|css-load.com|html-load.com|html-load.cc
+/\.(xyz|online|site)\/[a-z0-9]{7}\/[a-z0-9]{50,}$/$match-case,popup,domain=raenonx.cc
 
-!! SECTION: uBlock Origin: filters-2024.txt
+!#endif
+!! END: no Ad-Shield blocking
 
-!! cosmetic filter: bottom collapsible ad section
-raenonx.cc##body > div[class] > style:first-child + .w-full:has(> .button-clickable-bg-opaque > .transform-smooth > svg)
+
+!! SECTION: EasyList: easyprivacy.txt
+
+||raenonx.cc/api/analytics
 
 
 !! SECTION: Justin additions
