@@ -1,6 +1,8 @@
-! Title: Justin RaenonX
+! Title: Justin: RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
 ! Version: 2024-06-08 21:20 [A]
+
+! Use this URL: https://raw.githubusercontent.com/jgottula/AdGuard-Filters/master/raenonx.txt
 
 ! NOTE: Use this in conjunction with the microShield userscript (which blocks Ad-Shield)!
 ! https://github.com/List-KR/microShield
@@ -13,16 +15,8 @@
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/thirdparties/easylist/easyprivacy.txt [anti-tracker]
 ! Updated: 2024-06-06 03:18 [0461242]
 
-! Resources:
-! https://adguard.com/kb/general/ad-filtering/create-own-filters/
-! https://github.com/AdguardTeam/Scriptlets/blob/master/wiki/compatibility-table.md
-! https://github.com/gorhill/uBlock/wiki/Static-filter-syntax#not-supported
-! https://github.com/gorhill/uBlock/wiki/Syntax-quirks
-! https://github.com/gorhill/uBlock/wiki/Resources-Library
-! https://github.com/uBlockO/uBO-Scriptlets
-! https://github.com/AdguardTeam/Scriptlets
 
-!! SECTION: uBlock Origin: quick-fixes.txt
+!=== SECTION: uBlock Origin: quick-fixes.txt
 
 !! cosmetic filter: announcement bar nag about reporting to ad blockers
 raenonx.cc##div[class*="main_announcement-animation"]:has(> [class*="announcement"] > .markdown > p > a[href$="/docs/view/site/ads-and-credits"])
@@ -57,10 +51,10 @@ raenonx.cc#$#html[style*="hidden"]{overflow: visible !important;}
 ||raenonx.cc/api/scripts
 
 
-!! BEGIN: no Ad-Shield blocking
+!=== BEGIN: no Ad-Shield blocking
 !#if false
 
-!! SECTION: uBlock Origin: privacy.txt
+!=== SECTION: uBlock Origin: privacy.txt
 
 ! Ad-Shield
 ! https://github.com/uBlockOrigin/uAssets/issues/9717
@@ -82,7 +76,7 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 !#endif
 
 
-!! SECTION: uBlock Origin: filters-2022.txt
+!=== SECTION: uBlock Origin: filters-2022.txt
 
 ! Ad-Shield
 ! https://github.com/uBlockOrigin/uAssets/issues/21385
@@ -141,15 +135,15 @@ raenonx.cc#$#ins.adsbygoogle{height: 1px !important; visibility: hidden !importa
 /\.(xyz|online|site)\/[a-z0-9]{7}\/[a-z0-9]{50,}$/$match-case,popup,domain=raenonx.cc
 
 !#endif
-!! END: no Ad-Shield blocking
+!=== END: no Ad-Shield blocking
 
 
-!! SECTION: EasyList: easyprivacy.txt
+!=== SECTION: EasyList: easyprivacy.txt
 
 ||raenonx.cc/api/analytics
 
 
-!! SECTION: Justin additions
+!=== SECTION: Justin additions
 
 !! cosmetic filter: subscription nag dialog
 !! TODO: FIXME: this no longer works because now the periodic popup (this) and the adblock popup (above)
