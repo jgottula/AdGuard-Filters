@@ -1,6 +1,6 @@
 ! Title: Justin: RaenonX
 ! Description: AdGuard filters for RaenonX (based on uBlock Origin's filters)
-! Version: 2024-06-08 21:20 [A]
+! Version: 2024-06-14 15:15 [A]
 
 ! Use this URL: https://raw.githubusercontent.com/jgottula/AdGuard-Filters/master/raenonx.txt
 
@@ -13,10 +13,10 @@
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/privacy.txt      [ad-shield blocking]
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/filters/filters-2022.txt [ad-shield blocking]
 ! Upstream: https://github.com/uBlockOrigin/uAssets/blob/master/thirdparties/easylist/easyprivacy.txt [anti-tracker]
-! Updated: 2024-06-06 03:18 [0461242]
 
 
 !=== SECTION: uBlock Origin: quick-fixes.txt
+!     Commit: 0461242 2024-06-06 03:18
 
 !! cosmetic filter: announcement bar nag about reporting to ad blockers
 raenonx.cc##div[class*="main_announcement-animation"]:has(> [class*="announcement"] > .markdown > p > a[href$="/docs/view/site/ads-and-credits"])
@@ -55,6 +55,7 @@ raenonx.cc#$#html[style*="hidden"]{overflow: visible !important;}
 !#if false
 
 !=== SECTION: uBlock Origin: privacy.txt
+!     Commit: 41bbe7b 2024-06-01 03:59
 
 ! Ad-Shield
 ! https://github.com/uBlockOrigin/uAssets/issues/9717
@@ -77,6 +78,7 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 
 
 !=== SECTION: uBlock Origin: filters-2022.txt
+!     Commit: 8427a08 2024-06-10 03:37
 
 ! Ad-Shield
 ! https://github.com/uBlockOrigin/uAssets/issues/21385
@@ -91,14 +93,14 @@ raenonx.cc#%#//scriptlet('set-local-storage-item', /_fa_Y2FjaGVfYWRibG9ja19jaXJj
 
 !#if ext_ublock
 raenonx.cc##+js(no-fetch-if, /static\.criteo\.net|adsbygoogle/, length:150000-150200)
-raenonx.cc##+js(set, window.googletag.apiReady, undefined)
+@@||securepubads.g.doubleclick.net/tag/js/gpt.js$script,domain=raenonx.cc
 *$frame,redirect-rule=noopframe,domain=raenonx.cc
 *$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
 *$image,redirect-rule=1x1.gif,domain=raenonx.cc
 !#else
 !#if adguard
 raenonx.cc#%#//scriptlet('prevent-fetch', '/static\.criteo\.net|adsbygoogle/ length:150000-150200')
-raenonx.cc#%#//scriptlet('set-constant', 'googletag.apiReady', 'undefined')
+@@||securepubads.g.doubleclick.net/tag/js/gpt.js$script,domain=raenonx.cc
 !! AdGuard for iOS doesn't support redirect-rule :(
 *$frame,redirect-rule=noopframe,domain=raenonx.cc
 *$script,xhr,redirect-rule=noopjs,domain=raenonx.cc
@@ -120,6 +122,7 @@ raenonx.cc#$#ins.adsbygoogle{height: 1px !important; visibility: hidden !importa
 !#endif
 
 ||pks.raenonx.cc/scripts/newRelicEumProd.js$script
+||slobodnadalmacija.hr/templates/site/js/adrecover.js$script
 ||html-load.cc/script/$script
 ||07c225f3.online^$font,ping
 ||07c225f3.online/report?$xhr
@@ -139,6 +142,7 @@ raenonx.cc#$#ins.adsbygoogle{height: 1px !important; visibility: hidden !importa
 
 
 !=== SECTION: EasyList: easyprivacy.txt
+!     Commit: f7b8b1c 2024-06-01 20:53
 
 ||raenonx.cc/api/analytics
 
